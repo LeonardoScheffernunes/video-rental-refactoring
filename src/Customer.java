@@ -1,44 +1,46 @@
-import java.util.Vector;
-import java.util.Enumeration;
+import java.util.*;
 
 public class Customer {
-
-    private String _name;
-    private Vector<Rental> _rentals = new Vector<>();
+    private String name;
+    private List<Rental> rentals = new ArrayList<>();
 
     public Customer(String name) {
-        _name = name;
+        this.name = name;
     }
 
     public void addRental(Rental arg) {
-        _rentals.addElement(arg);
+        rentals.add(arg);
     }
 
     public String getName() {
-        return _name;
+        return name;
+    }
+
+    // Refactoring 2: método amountFor com parâmetro renomeado para aRental
+    private double amountFor(Rental aRental) {
+        return aRental.getMovie().getCharge(aRental.getDaysRented());
     }
 
     public String statement() {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
 
-        Enumeration<Rental> rentals = _rentals.elements();
-        String result = "Rental Record for " + getName() + "\n";
+        StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
 
-        while (rentals.hasMoreElements()) {
-            Rental each = rentals.nextElement();
+        for (Rental each : rentals) {
 
-            totalAmount += each.getCharge();
             frequentRenterPoints += each.getFrequentRenterPoints();
 
-            result += "\t" + each.getMovie().getTitle() +
-                      "\t" + each.getCharge() + "\n";
+            double thisAmount = amountFor(each);
+
+            result.append("\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n");
+
+            totalAmount += thisAmount;
         }
 
-        result += "Amount owed is " + totalAmount + "\n";
-        result += "You earned " + frequentRenterPoints +
-                  " frequent renter points";
+        result.append("Amount owed is " + totalAmount + "\n");
+        result.append("You earned " + frequentRenterPoints + " frequent renter points");
 
-        return result;
+        return result.toString();
     }
 }
