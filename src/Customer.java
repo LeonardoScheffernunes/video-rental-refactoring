@@ -1,41 +1,51 @@
-import java.util.*;
+import java.util.Enumeration;
+import java.util.Vector;
 
 public class Customer {
-    private String name;
-    private List<Rental> rentals = new ArrayList<>();
+    private String _name;
+    private Vector _rentals = new Vector();
 
     public Customer(String name) {
-        this.name = name;
+        _name = name;
     }
 
     public void addRental(Rental arg) {
-        rentals.add(arg);
+        _rentals.addElement(arg);
     }
 
     public String getName() {
-        return name;
+        return _name;
     }
 
     public String statement() {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
+        Enumeration rentals = _rentals.elements();
+        String result = "Rental Record for " + getName() + "\n";
 
-        StringBuilder result = new StringBuilder("Rental Record for " + getName() + "\n");
+        while (rentals.hasMoreElements()) {
+            Rental each = (Rental) rentals.nextElement();
 
-        for (Rental each : rentals) {
+            // add frequent renter points
+            frequentRenterPoints++;
+            // add bonus for a two day new release rental
+            if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE) &&
+                each.getDaysRented() > 1) {
+                frequentRenterPoints++;
+            }
 
-            frequentRenterPoints += each.getFrequentRenterPoints();
+            // show figures for this rental
+            result += "\t" + each.getMovie().getTitle() + "\t" +
+                    String.valueOf(each.getCharge()) + "\n";
 
-            double thisAmount = each.getCharge();  // ← atualizado
-
-            result.append("\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n");
-
-            totalAmount += thisAmount;
+            totalAmount += each.getCharge();
         }
 
-        result.append("Amount owed is " + totalAmount + "\n");
-        result.append("You earned " + frequentRenterPoints + " frequent renter points");
+        // add footer lines
+        result += "Amount owed is " + String.valueOf(totalAmount) + "\n";
+        result += "You earned " + String.valueOf(frequentRenterPoints)
+                + " frequent renter points";
 
-        return result.toString();
+        return result;
     }
 }
