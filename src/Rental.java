@@ -1,5 +1,4 @@
 public class Rental {
-
     private Movie _movie;
     private int _daysRented;
 
@@ -16,12 +15,10 @@ public class Rental {
         return _movie;
     }
 
-    // Refactoring 7 – Passo 1: delega o cálculo do valor
     public double getCharge() {
         return _movie.getCharge(_daysRented);
     }
 
-    // Refactoring 7 – Passo 2: delega cálculo de pontos
     public int getFrequentRenterPoints() {
         return _movie.getFrequentRenterPoints(_daysRented);
     }

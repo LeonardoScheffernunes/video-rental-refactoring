@@ -1,8 +1,7 @@
 public class Movie {
-
+    public static final int CHILDRENS = 2;
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
-    public static final int CHILDRENS = 2;
 
     private String _title;
     private Price _price;
@@ -36,32 +35,11 @@ public class Movie {
         }
     }
 
-    // Refactoring 7 Passo 1: delega cálculo de valor
     public double getCharge(int daysRented) {
-        double thisAmount = 0;
-        switch (_price.getPriceCode()) {
-            case REGULAR:
-                thisAmount += 2;
-                if (daysRented > 2)
-                    thisAmount += (daysRented - 2) * 1.5;
-                break;
-            case NEW_RELEASE:
-                thisAmount += daysRented * 3;
-                break;
-            case CHILDRENS:
-                thisAmount += 1.5;
-                if (daysRented > 3)
-                    thisAmount += (daysRented - 3) * 1.5;
-                break;
-        }
-        return thisAmount;
+        return _price.getCharge(daysRented);
     }
 
-    // Refactoring 7 Passo 2: delega cálculo de pontos
     public int getFrequentRenterPoints(int daysRented) {
-        if ((_price.getPriceCode() == NEW_RELEASE) && (daysRented > 1))
-            return 2;
-        else
-            return 1;
+        return _price.getFrequentRenterPoints(daysRented);
     }
 }
