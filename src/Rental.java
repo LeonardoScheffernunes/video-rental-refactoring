@@ -1,26 +1,26 @@
 public class Rental {
-    private Movie _movie;
-    private int _daysRented;
+    private Movie movie;
+    private int daysRented;
 
     public Rental(Movie movie, int daysRented) {
-        _movie = movie;
-        _daysRented = daysRented;
-    }
-
-    public int getDaysRented() {
-        return _daysRented;
+        this.movie = movie;
+        this.daysRented = daysRented;
     }
 
     public Movie getMovie() {
-        return _movie;
+        return movie;
     }
 
-    // EXTRAÍDO DO CUSTOMER - agora pertence ao Rental
+    public int getDaysRented() {
+        return daysRented;
+    }
+
+    // Novo método (Refactoring 3)
     public double getCharge() {
-        return _movie.getCharge(_daysRented);
+        return movie.getCharge(daysRented);
     }
 
     public int getFrequentRenterPoints() {
-        return _movie.getFrequentRenterPoints(_daysRented);
+        return movie.getFrequentRenterPoints(daysRented);
     }
 }

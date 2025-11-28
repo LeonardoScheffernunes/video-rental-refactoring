@@ -16,11 +16,6 @@ public class Customer {
         return name;
     }
 
-    // Refactoring 2: método amountFor com parâmetro renomeado para aRental
-    private double amountFor(Rental aRental) {
-        return aRental.getMovie().getCharge(aRental.getDaysRented());
-    }
-
     public String statement() {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
@@ -31,7 +26,7 @@ public class Customer {
 
             frequentRenterPoints += each.getFrequentRenterPoints();
 
-            double thisAmount = amountFor(each);
+            double thisAmount = each.getCharge();  // ← atualizado
 
             result.append("\t" + each.getMovie().getTitle() + "\t" + thisAmount + "\n");
 
