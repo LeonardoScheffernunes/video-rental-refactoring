@@ -1,5 +1,5 @@
-import java.util.Vector;
 import java.util.Enumeration;
+import java.util.Vector;
 
 public class Customer {
     private String _name;
@@ -17,40 +17,22 @@ public class Customer {
         return _name;
     }
 
+    // método antigo agora delega para TextStatement
     public String statement() {
-        Enumeration<Rental> rentals = _rentals.elements();
-        String result = "Rental Record for " + getName() + "\n";
-        while (rentals.hasMoreElements()) {
-            Rental each = rentals.nextElement();
-
-            // show figures for this rental
-            result += "\t" + each.getMovie().getTitle() + "\t" +
-                      String.valueOf(each.getCharge()) + "\n";
-        }
-
-        // add footer lines
-        result += "Amount owed is " + String.valueOf(getTotalCharge()) + "\n";
-        result += "You earned " + String.valueOf(getTotalFrequentRenterPoints()) +
-                  " frequent renter points";
-        return result;
+        return new TextStatement().value(this);
     }
 
+    // método antigo agora delega para HtmlStatement
     public String htmlStatement() {
-        Enumeration<Rental> rentals = _rentals.elements();
-        String result = "<H1>Rentals for <EM>" + getName() + "</EM></H1><P>\n";
-        while (rentals.hasMoreElements()) {
-            Rental each = rentals.nextElement();
-            result += each.getMovie().getTitle() + ": " +
-                      String.valueOf(each.getCharge()) + "<BR>\n";
-        }
-        result += "<P>You owe <EM>" + String.valueOf(getTotalCharge()) + "</EM><P>\n";
-        result += "On this rental you earned <EM>" +
-                  String.valueOf(getTotalFrequentRenterPoints()) +
-                  "</EM> frequent renter points<P>";
-        return result;
+        return new HtmlStatement().value(this);
     }
 
-    private double getTotalCharge() {
+    // para permitir acesso a subclasses de Statement
+    public Enumeration<Rental> getRentals() {
+        return _rentals.elements();
+    }
+
+    public double getTotalCharge() {
         double result = 0;
         Enumeration<Rental> rentals = _rentals.elements();
         while (rentals.hasMoreElements()) {
@@ -60,7 +42,7 @@ public class Customer {
         return result;
     }
 
-    private int getTotalFrequentRenterPoints() {
+    public int getTotalFrequentRenterPoints() {
         int result = 0;
         Enumeration<Rental> rentals = _rentals.elements();
         while (rentals.hasMoreElements()) {
