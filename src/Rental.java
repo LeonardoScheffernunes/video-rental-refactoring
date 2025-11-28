@@ -16,16 +16,13 @@ public class Rental {
         return _movie;
     }
 
-    // Refactoring 7 – Passo 1: agora apenas delega a Movie
+    // Refactoring 7 – Passo 1: delega o cálculo do valor
     public double getCharge() {
         return _movie.getCharge(_daysRented);
     }
 
-    // Refactoring anterior: pontos de fidelidade
+    // Refactoring 7 – Passo 2: delega cálculo de pontos
     public int getFrequentRenterPoints() {
-        if ((_movie.getPriceCode() == Movie.NEW_RELEASE) && (_daysRented > 1))
-            return 2;
-        else
-            return 1;
+        return _movie.getFrequentRenterPoints(_daysRented);
     }
 }

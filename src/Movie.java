@@ -24,7 +24,7 @@ public class Movie {
         return _title;
     }
 
-    // Refactoring 7 – Passo 1: lógica de cálculo movida para Movie
+    // Refactoring 7 – Passo 1: cálculo de aluguel
     public double getCharge(int daysRented) {
         double thisAmount = 0;
         switch (_priceCode) {
@@ -43,5 +43,13 @@ public class Movie {
                 break;
         }
         return thisAmount;
+    }
+
+    // Refactoring 7 – Passo 2: cálculo de pontos de fidelidade
+    public int getFrequentRenterPoints(int daysRented) {
+        if ((_priceCode == NEW_RELEASE) && (daysRented > 1))
+            return 2;
+        else
+            return 1;
     }
 }
