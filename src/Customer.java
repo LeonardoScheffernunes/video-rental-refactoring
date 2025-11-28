@@ -17,17 +17,6 @@ public class Customer {
         return _name;
     }
 
-    // método antigo agora delega para TextStatement
-    public String statement() {
-        return new TextStatement().value(this);
-    }
-
-    // método antigo agora delega para HtmlStatement
-    public String htmlStatement() {
-        return new HtmlStatement().value(this);
-    }
-
-    // para permitir acesso a subclasses de Statement
     public Enumeration<Rental> getRentals() {
         return _rentals.elements();
     }
@@ -50,5 +39,13 @@ public class Customer {
             result += each.getFrequentRenterPoints();
         }
         return result;
+    }
+
+    public String statement() {
+        return new TextStatement().value(this);
+    }
+
+    public String htmlStatement() {
+        return new HtmlStatement().value(this);
     }
 }

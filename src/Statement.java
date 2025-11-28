@@ -1,21 +1,12 @@
-import java.util.Enumeration;
-
 public abstract class Statement {
-
-    // método template
     public String value(Customer aCustomer) {
-        Enumeration rentals = aCustomer.getRentals();
-        String result = headerString(aCustomer);
-        while (rentals.hasMoreElements()) {
-            Rental each = (Rental) rentals.nextElement();
-            result += eachRentalString(each);
-        }
-        result += footerString(aCustomer);
+        String result = header(aCustomer);
+        result += eachRental(aCustomer);
+        result += footer(aCustomer);
         return result;
     }
 
-    // métodos abstratos para sobrescrever nas subclasses
-    protected abstract String headerString(Customer aCustomer);
-    protected abstract String eachRentalString(Rental rental);
-    protected abstract String footerString(Customer aCustomer);
+    protected abstract String header(Customer aCustomer);
+    protected abstract String eachRental(Customer aCustomer);
+    protected abstract String footer(Customer aCustomer);
 }

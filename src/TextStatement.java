@@ -1,21 +1,22 @@
-public class TextStatement extends Statement {
+import java.util.Enumeration;
 
-    @Override
-    protected String headerString(Customer aCustomer) {
+public class TextStatement extends Statement {
+    protected String header(Customer aCustomer) {
         return "Rental Record for " + aCustomer.getName() + "\n";
     }
 
-    @Override
-    protected String eachRentalString(Rental rental) {
-        return "\t" + rental.getMovie().getTitle() + "\t" +
-               String.valueOf(rental.getCharge()) + "\n";
+    protected String eachRental(Customer aCustomer) {
+        String result = "";
+        Enumeration<Rental> rentals = aCustomer.getRentals();
+        while (rentals.hasMoreElements()) {
+            Rental each = rentals.nextElement();
+            result += "\t" + each.getMovie().getTitle() + "\t" + each.getCharge() + "\n";
+        }
+        return result;
     }
 
-    @Override
-    protected String footerString(Customer aCustomer) {
-        String result = "Amount owed is " + String.valueOf(aCustomer.getTotalCharge()) + "\n";
-        result += "You earned " + String.valueOf(aCustomer.getTotalFrequentRenterPoints()) +
-                  " frequent renter points";
-        return result;
+    protected String footer(Customer aCustomer) {
+        return "Amount owed is " + aCustomer.getTotalCharge() + "\n" +
+               "You earned " + aCustomer.getTotalFrequentRenterPoints() + " frequent renter points";
     }
 }
